@@ -1,40 +1,48 @@
-// Smooth Scroll for Navigation
-document.querySelectorAll('header nav ul li a').forEach(link => {
-    link.addEventListener('click', e => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        target.scrollIntoView({ behavior: 'smooth' });
-    });
+// Smooth Scroll
+document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(link.getAttribute('href'))
+      .scrollIntoView({ behavior: 'smooth' });
+  });
 });
 
 // Back to Top Button
 const backToTop = document.getElementById('backToTop');
+
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 300) {
-        backToTop.style.display = 'block';
-    } else {
-        backToTop.style.display = 'none';
-    }
+  backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
 });
+
 backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// Contact Form Validation
-const form = document.getElementById('contactForm');
-form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = form.name.value.trim();
-    const email = form.email.value.trim();
-    const truck = form.truck.value.trim();
-    const message = form.message.value.trim();
+// Form Validation
+document.getElementById('contactForm').addEventListener('submit', e => {
+  e.preventDefault();
 
-    if (!name || !email || !truck || !message) {
-        alert('Please fill in all fields.');
-        return;
-    }
+  const name = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const truck = document.getElementById('truck').value.trim();
+  const message = document.getElementById('formMessage');
 
-    if (!email.includes('@')) {
+  if (!name || !phone || !truck) {
+    message.textContent = "Please fill in all required fields.";
+    message.style.color = "red";
+    return;
+  }
+
+  message.textContent = "Request sent. We'll contact you shortly.";
+  message.style.color = "green";
+  e.target.reset();
+});
+
+// Optional: Emergency Mode Toggle (simple demo)
+const emergencyService = document.querySelector('.highlight');
+emergencyService.addEventListener('click', () => {
+  alert("Emergency Service Activated! Call us immediately.");
+});    if (!email.includes('@')) {
         alert('Please enter a valid email address.');
         return;
     }
